@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S4G X CHEATZ - Premium VIP Panels</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen px-4 pt-16 pb-12">
+
+    <!-- Loading Indicator -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center z-[100]">
+        <div class="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p class="text-cyan-400 font-orbitron text-sm tracking-wider">LOADING CLOUD DATA...</p>
+    </div>
+
+    <div class="admin-top-bar">
+        <button id="toggleViewBtn" class="btn-admin-top" onclick="toggleMainView()">
+            <i class="fa-solid fa-user-shield"></i>
+            <span id="toggleText">Admin Page</span>
+        </button>
+    </div>
+
+    <main class="w-full max-w-md flex flex-col items-center text-center">
+        <!-- HOME PAGE -->
+        <section id="homePage" class="w-full flex flex-col items-center">
+            <div class="avatar-glow mb-5 relative flex items-center justify-center">
+                <img id="displayLogo" src="" alt="Avatar" class="w-full h-full rounded-full object-cover bg-slate-900">
+            </div>
+            <h1 id="displayTitle" class="title-glow text-3xl font-orbitron font-extrabold tracking-wider mb-2">S4G X CHEATZ</h1>
+            <p id="displaySubtitle" class="text-slate-400 text-sm mb-8 font-rajdhani font-semibold tracking-wide"></p>
+
+            <div class="w-full flex flex-col gap-4 mb-10">
+                <button onclick="openCatalogModal('ios')" class="btn btn-ios w-full py-4 px-6 rounded-xl flex items-center justify-between text-lg font-bold tracking-wider transition-all">
+                    <div class="flex items-center gap-3"><i class="fa-brands fa-apple text-2xl"></i><span>IOS</span></div>
+                    <span id="iosCountBadge" class="text-xs bg-white/20 text-white px-2.5 py-1 rounded-full font-mono">0 Products</span>
+                </button>
+                <button onclick="openCatalogModal('android')" class="btn btn-android w-full py-4 px-6 rounded-xl flex items-center justify-between text-lg font-bold tracking-wider transition-all">
+                    <div class="flex items-center gap-3"><i class="fa-brands fa-android text-2xl"></i><span>ANDROID</span></div>
+                    <span id="androidCountBadge" class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full font-mono">0 Products</span>
+                </button>
+                <button onclick="openCatalogModal('pc')" class="btn btn-pc w-full py-4 px-6 rounded-xl flex items-center justify-between text-lg font-bold tracking-wider transition-all">
+                    <div class="flex items-center gap-3"><i class="fa-brands fa-windows text-2xl"></i><span>PC</span></div>
+                    <span id="pcCountBadge" class="text-xs bg-sky-500/20 text-sky-300 px-2.5 py-1 rounded-full font-mono">0 Products</span>
+                </button>
+            </div>
+
+            <div class="w-full flex flex-col gap-8 mt-2">
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-shield-halved text-3xl text-cyan-400 mb-3 drop-shadow-[0_0_12px_rgba(0,242,254,0.8)]"></i>
+                    <h3 id="displayFeat1Title" class="text-lg font-bold text-white mb-1"></h3>
+                    <p id="displayFeat1Desc" class="text-slate-400 text-xs leading-relaxed max-w-xs"></p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-bolt text-3xl text-cyan-400 mb-3 drop-shadow-[0_0_12px_rgba(0,242,254,0.8)]"></i>
+                    <h3 id="displayFeat2Title" class="text-lg font-bold text-white mb-1"></h3>
+                    <p id="displayFeat2Desc" class="text-slate-400 text-xs leading-relaxed max-w-xs"></p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <i class="fa-solid fa-headset text-3xl text-cyan-400 mb-3 drop-shadow-[0_0_12px_rgba(0,242,254,0.8)]"></i>
+                    <h3 id="displayFeat3Title" class="text-lg font-bold text-white mb-1"></h3>
+                    <p id="displayFeat3Desc" class="text-slate-400 text-xs leading-relaxed max-w-xs"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PUBLIC ADMIN PAGE -->
+        <section id="adminViewPage" class="w-full flex flex-col items-center hidden">
+            <div class="avatar-glow admin-avatar-glow mb-5 relative flex items-center justify-center">
+                <img id="adminLogoDisplay" src="" alt="Admin Avatar" class="w-full h-full rounded-full object-cover bg-slate-900">
+            </div>
+            <h1 class="admin-title-glow text-3xl font-orbitron font-extrabold tracking-wider mb-2">ADMIN PANEL</h1>
+            <p class="text-slate-400 text-sm mb-8 font-rajdhani font-semibold tracking-wide">Official Management & Security</p>
+
+            <div class="w-full flex flex-col gap-4 mb-8">
+                <button onclick="openPasswordModal()" class="btn btn-private w-full py-4 px-6 rounded-xl flex items-center justify-center gap-3 text-lg font-bold tracking-wider transition-all">
+                    <i class="fa-solid fa-lock text-xl"></i><span>PRIVATE SITE</span>
+                </button>
+                <a id="adminWhatsAppBtn" href="#" target="_blank" class="btn btn-whatsapp-admin w-full py-4 px-6 rounded-xl flex items-center justify-center gap-3 text-lg font-bold tracking-wider transition-all">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i><span>ADMIN WHATSAPP</span>
+                </a>
+                <button onclick="toggleMainView()" class="btn btn-back w-full py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 text-base font-bold tracking-wider transition-all mt-2">
+                    <i class="fa-solid fa-arrow-left"></i><span>MAIN PAGE</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- PRIVATE DASHBOARD -->
+        <section id="dashboardPage" class="w-full flex flex-col items-center hidden">
+            <div class="w-full glass-panel p-5 mb-6 text-left border-rose-500/40 relative">
+                <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-sliders text-2xl text-rose-500"></i>
+                        <div>
+                            <h2 class="text-lg font-orbitron font-bold text-white">PRIVATE DASHBOARD</h2>
+                            <p class="text-xs text-rose-400 font-mono">Global Cloud Mode</p>
+                        </div>
+                    </div>
+                    <button onclick="logoutAdmin()" class="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white text-xs font-bold transition">
+                        Exit
+                    </button>
+                </div>
+
+                <div class="flex gap-2">
+                    <button id="tabProductsBtn" onclick="switchDashTab('products')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-rose-600 text-white transition">Products</button>
+                    <button id="tabSettingsBtn" onclick="switchDashTab('settings')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 transition">Site Settings</button>
+                </div>
+            </div>
+
+            <div id="dashTabProducts" class="w-full flex flex-col gap-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-bold text-white">Product Catalog</h3>
+                    <button onclick="openProductForm()" class="px-3 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs rounded-xl shadow-lg flex items-center gap-1.5">+ Add Product</button>
+                </div>
+                <div id="adminProductList" class="flex flex-col gap-3 w-full"></div>
+            </div>
+
+            <div id="dashTabSettings" class="w-full flex flex-col gap-4 hidden text-left">
+                <div class="glass-panel p-5 flex flex-col gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Logo URL</label>
+                        <input id="inputLogoUrl" type="url" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Site Title</label>
+                        <input id="inputMainTitle" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Subtitle</label>
+                        <input id="inputSubtitle" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">WhatsApp Number</label>
+                        <input id="inputWhatsApp" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-cyan-400 mb-1">Feature 1</label>
+                        <input id="inputFeat1Title" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white mb-2">
+                        <textarea id="inputFeat1Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-cyan-400 mb-1">Feature 2</label>
+                        <input id="inputFeat2Title" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white mb-2">
+                        <textarea id="inputFeat2Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-cyan-400 mb-1">Feature 3</label>
+                        <input id="inputFeat3Title" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white mb-2">
+                        <textarea id="inputFeat3Desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white"></textarea>
+                    </div>
+                    <button onclick="saveSiteSettings()" class="w-full py-3 bg-rose-600 text-white font-bold text-xs rounded-xl shadow-lg">Save Settings Global</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODALS -->
+    <div id="catalogModal" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="modal-enter glass-panel border-slate-700 w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden shadow-2xl relative">
+            <div class="p-4 border-b border-slate-700/80 flex items-center justify-between bg-slate-900/60">
+                <div class="flex items-center gap-3">
+                    <i id="catalogPlatformIcon" class="text-2xl"></i>
+                    <h2 id="catalogPlatformTitle" class="text-lg font-orbitron font-bold text-white">PRODUCTS</h2>
+                </div>
+                <button onclick="closeCatalogModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="catalogProductContainer" class="p-4 overflow-y-auto flex flex-col gap-6 text-left"></div>
+        </div>
+    </div>
+
+    <div id="passwordModal" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="modal-enter glass-panel border-rose-500/60 w-full max-w-xs p-6 text-center shadow-2xl relative">
+            <h2 class="text-xl font-orbitron font-bold text-white mb-2">Enter Password</h2>
+            <input id="passcodeInput" type="password" placeholder="Passcode" class="w-full bg-slate-950 border border-rose-500/60 rounded-xl px-4 py-3 text-center text-white text-sm outline-none mb-3">
+            <p id="passcodeError" class="text-xs text-rose-400 font-bold mb-3 hidden">වැරදි මුරපදයකි!</p>
+            <div class="flex gap-2">
+                <button onclick="closePasswordModal()" class="flex-1 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl">Cancel</button>
+                <button onclick="verifyPassword()" class="flex-1 py-2.5 bg-rose-600 text-white font-bold text-xs rounded-xl">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="productFormModal" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="modal-enter glass-panel border-slate-700 w-full max-w-md p-5 text-left shadow-2xl relative">
+            <h3 id="productFormTitle" class="text-base font-orbitron font-bold text-white mb-4">Add Product</h3>
+            <form id="productForm" onsubmit="handleProductSubmit(event)" class="flex flex-col gap-3">
+                <input type="hidden" id="formProductId">
+                <input id="formProductName" type="text" placeholder="Product Name" required class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white">
+                <div class="grid grid-cols-2 gap-3">
+                    <select id="formProductPlatform" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white">
+                        <option value="ios">iOS</option>
+                        <option value="android">Android</option>
+                        <option value="pc">PC</option>
+                    </select>
+                    <input id="formProductPrice" type="text" placeholder="Price" required class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white">
+                </div>
+                <input id="formProductVideo" type="url" placeholder="Showcase Video Link" class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white">
+                <textarea id="formProductDesc" rows="3" placeholder="Description" required class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-white"></textarea>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="formProductInStock" checked class="w-4 h-4 accent-rose-500">
+                    <label class="text-xs text-slate-300">In Stock</label>
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeProductForm()" class="flex-1 py-2.5 bg-slate-800 text-slate-300 text-xs font-bold rounded-xl">Cancel</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-rose-600 text-white text-xs font-bold rounded-xl">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+</body>
+</html>
